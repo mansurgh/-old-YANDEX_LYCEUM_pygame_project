@@ -1,4 +1,5 @@
 import pygame
+import sys
 
 pygame.init()
 win = pygame.display.set_mode((1280, 720))
@@ -24,13 +25,15 @@ playerStand = pygame.image.load('textures/Characters/pers_stand.png')
 
 clock = pygame.time.Clock()
 
-x = 50
-y = 50
-widht = 20
+x = 1255
+y = 675
+width = 20
 height = 40
 speed = 5
 
 right, left, up, down, animCount = False, False, False, False, 0
+
+font = pygame.font.SysFont(None, 20)
 
 
 def drawingWindow():
@@ -58,6 +61,47 @@ def drawingWindow():
     pygame.display.update()
 
 
+def draw_text(text, font, color, surface, x, y):
+    textobj = font.render(text, 1, color)
+    textrect = textobj.get_rect()
+    textrect.topleft = (x, y)
+    surface.blit(textobj, textrect)
+
+
+click = False
+
+
+def main_menu():
+    while True:
+
+        win.fill((0, 0, 0))
+        draw_text('main menu', font, (255, 255, 255), win, 20, 20)
+
+        mx, my = pygame.mouse.get_pos()
+
+        button_1 = pygame.Rect(50, 100, 200, 50)
+        if button_1.collidepoint((mx, my)):
+            if click:
+                drawingWindow()
+        pygame.draw.rect(win, (255, 0, 0), button_1)
+
+        click = False
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    pygame.quit()
+                    sys.exit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    click = True
+
+        pygame.display.update()
+        clock.tick(30)
+
+
 run = True
 while run:
     clock.tick(30)
@@ -70,7 +114,7 @@ while run:
     if keys[pygame.K_LEFT] and x > 5:
         x -= speed
         right, left, up, down = False, True, False, False
-    elif keys[pygame.K_RIGHT] and x < 1280 - widht - 5:
+    elif keys[pygame.K_RIGHT] and x < 1280 - width - 5:
         x += speed
         right, left, up, down = True, False, False, False
     elif keys[pygame.K_UP] and y > 5:
@@ -82,6 +126,6 @@ while run:
     else:
         right, left, up, down, animCount = False, False, False, False, 0
 
-    drawingWindow()
+    main_menu()
 
 pygame.quit()
