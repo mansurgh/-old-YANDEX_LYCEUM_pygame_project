@@ -3,8 +3,7 @@ import sys
 import pygame
 
 pygame.init()
-size = WIDTH, HEIGHT = 1280, 720
-win = pygame.display.set_mode(size)
+win = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 pygame.display.set_caption("Путь рыцаря")
 pygame.display.set_icon(pygame.image.load("textures/icon.bmp"))
 FPS = 30
@@ -203,6 +202,8 @@ if __name__ == '__main__':
             if event.type == pygame.QUIT:
                 terminate()
             keys = pygame.key.get_pressed()
+            if keys[pygame.K_ESCAPE]:
+                terminate()
             if keys[pygame.K_RIGHT]:
                 move_hero(player, 'right')
                 right, left, up, down = True, False, False, False
