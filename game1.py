@@ -192,6 +192,24 @@ def main_menu():
         pygame.display.update()
         clock.tick(30)
 
+def player_walking():
+    global right, left, up, down, animCount
+    if keys[pygame.K_RIGHT]:
+        move_hero(player, 'right')
+        right, left, up, down = True, False, False, False
+    elif keys[pygame.K_LEFT]:
+        move_hero(player, 'left')
+        right, left, up, down = False, True, False, False
+    elif keys[pygame.K_UP]:
+        move_hero(player, 'up')
+        right, left, up, down = False, False, True, False
+    elif keys[pygame.K_DOWN]:
+        move_hero(player, 'down')
+        right, left, up, down = False, False, False, True
+    else:
+        right, left, up, down = False, False, False, False
+        animCount = 0
+
 
 if __name__ == '__main__':
     player = None
@@ -204,21 +222,15 @@ if __name__ == '__main__':
             keys = pygame.key.get_pressed()
             if keys[pygame.K_ESCAPE]:
                 terminate()
-            if keys[pygame.K_RIGHT]:
+            player_walking()
+            if right:
                 move_hero(player, 'right')
-                right, left, up, down = True, False, False, False
-            elif keys[pygame.K_LEFT]:
+            elif left:
                 move_hero(player, 'left')
-                right, left, up, down = False, True, False, False
-            elif keys[pygame.K_UP]:
+            elif up:
                 move_hero(player, 'up')
-                right, left, up, down = False, False, True, False
-            elif keys[pygame.K_DOWN]:
+            elif right:
                 move_hero(player, 'down')
-                right, left, up, down = False, False, False, True
-            else:
-                right, left, up, down = False, False, False, False
-                animCount = 0
             win.fill(pygame.Color('white'))
         # main_menu()
         tiles_group.draw(win)
