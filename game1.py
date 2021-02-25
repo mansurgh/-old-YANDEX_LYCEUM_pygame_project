@@ -192,6 +192,7 @@ def main_menu():
         pygame.display.update()
         clock.tick(30)
 
+
 def player_walking():
     global right, left, up, down, animCount
     if keys[pygame.K_RIGHT]:

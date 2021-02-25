@@ -2,7 +2,7 @@ import pygame
 import sys
 
 pygame.init()
-win = pygame.display.set_mode((1280, 720))
+win = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 
 pygame.display.set_caption('Рыцарь')
 pygame.display.set_icon(pygame.image.load("textures/icon.bmp"))
@@ -102,30 +102,76 @@ def main_menu():
         clock.tick(30)
 
 
-run = True
-while run:
-    clock.tick(30)
+def lvl1():
+    global x, y, right, left, up, down, animCount, background
+    background = pygame.image.load('textures/first_karta.png')
+    run = True
+    while run:
+        clock.tick(30)
 
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            run = False
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
 
-    keys = pygame.key.get_pressed()
-    if keys[pygame.K_LEFT] and x > 5:
-        x -= speed
-        right, left, up, down = False, True, False, False
-    elif keys[pygame.K_RIGHT] and x < 1280 - width - 5:
-        x += speed
-        right, left, up, down = True, False, False, False
-    elif keys[pygame.K_UP] and y > 5:
-        y -= speed
-        right, left, up, down = False, False, True, False
-    elif keys[pygame.K_DOWN] and y < 720 - height - 5:
-        y += speed
-        right, left, up, down = False, False, False, True
-    else:
-        right, left, up, down, animCount = False, False, False, False, 0
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_ESCAPE]:
+            pygame.quit()
+            sys.exit()
+        if keys[pygame.K_LEFT] and x > 10:
+            x -= speed
+            right, left, up, down = False, True, False, False
+        elif keys[pygame.K_RIGHT] and x < 1590 - width - 5:
+            x += speed
+            right, left, up, down = True, False, False, False
+        elif keys[pygame.K_UP] and y > 5:
+            y -= speed
+            right, left, up, down = False, False, True, False
+        elif keys[pygame.K_DOWN] and y < 900 - height - 5:
+            y += speed
+            right, left, up, down = False, False, False, True
+        else:
+            right, left, up, down, animCount = False, False, False, False, 0
 
-    main_menu()
+        # main_menu()
+        drawingWindow()
+        if x == 15 and y == 5:
+            print('yes')
+            lvl2()
 
+
+def lvl2():
+    global x, y, right, left, up, down, animCount, background
+    background = pygame.image.load('textures/karta2.png')
+    run = True
+    while run:
+        clock.tick(30)
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_ESCAPE]:
+            pygame.quit()
+            sys.exit()
+        if keys[pygame.K_LEFT] and x > 10:
+            x -= speed
+            right, left, up, down = False, True, False, False
+        elif keys[pygame.K_RIGHT] and x < 1590 - width - 5:
+            x += speed
+            right, left, up, down = True, False, False, False
+        elif keys[pygame.K_UP] and y > 5:
+            y -= speed
+            right, left, up, down = False, False, True, False
+        elif keys[pygame.K_DOWN] and y < 900 - height - 5:
+            y += speed
+            right, left, up, down = False, False, False, True
+        else:
+            right, left, up, down, animCount = False, False, False, False, 0
+
+        # main_menu()
+        drawingWindow()
+
+
+lvl1()
 pygame.quit()
