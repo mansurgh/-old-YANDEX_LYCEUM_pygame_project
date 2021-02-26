@@ -3,8 +3,9 @@ import sys
 
 pygame.init()
 win = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+pygame.mouse.set_visible(False)
 
-pygame.display.set_caption('Рыцарь')
+pygame.display.set_caption('Ant Knight Adventures')
 pygame.display.set_icon(pygame.image.load("textures/icon.bmp"))
 
 walkRight = [pygame.image.load('textures/Characters/pers_right.png'),
@@ -30,8 +31,11 @@ y = 675
 width = 20
 height = 40
 speed = 5
+bullets = []
 
 right, left, up, down, animCount = False, False, False, False, 0
+
+last_move = 'right'
 
 font = pygame.font.SysFont(None, 20)
 
@@ -57,6 +61,9 @@ def drawingWindow():
         animCount += 1
     else:
         win.blit(playerStand, (x, y))
+
+    for bullet in bullets:
+        bullet.draw(win)
 
     pygame.display.update()
 
@@ -99,15 +106,15 @@ def main_menu():
                     click = True
 
         pygame.display.update()
-        clock.tick(30)
+        clock.tick(60)
 
 
 def lvl1():
     global x, y, right, left, up, down, animCount, background
-    background = pygame.image.load('textures/first_karta.png')
+    background = pygame.image.load('textures/k1lvl.png')
     run = True
     while run:
-        clock.tick(30)
+        clock.tick(60)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -134,8 +141,8 @@ def lvl1():
 
         # main_menu()
         drawingWindow()
-        if x == 15 and y == 5:
-            print('yes')
+        if x == 10 and y == 5:
+            print('Переход на второй уровень!')
             lvl2()
 
 
@@ -144,22 +151,39 @@ def lvl2():
     background = pygame.image.load('textures/karta2.png')
     run = True
     while run:
-        clock.tick(30)
+        clock.tick(60)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
 
+        for bullet in bullets:
+            if 1615 > bullet.x > 0:
+                bullet.x += bullet.vel
+            else:
+                bullets.pop(bullets.index(bullet))
+
         keys = pygame.key.get_pressed()
+
+        if keys[pygame.K_SPACE]:
+            if last_move == 'right':
+                facing = 1
+            else:
+                facing = -1
+            if len(bullets) < 10:
+                bullets.append(gun(round(x + width // 2), round(y + height // 2), 5, (255, 0, 0),
+                                   facing))
         if keys[pygame.K_ESCAPE]:
             pygame.quit()
             sys.exit()
         if keys[pygame.K_LEFT] and x > 10:
             x -= speed
             right, left, up, down = False, True, False, False
+            last_move = 'left'
         elif keys[pygame.K_RIGHT] and x < 1590 - width - 5:
             x += speed
             right, left, up, down = True, False, False, False
+            last_move = 'right'
         elif keys[pygame.K_UP] and y > 5:
             y -= speed
             right, left, up, down = False, False, True, False
@@ -169,8 +193,20 @@ def lvl2():
         else:
             right, left, up, down, animCount = False, False, False, False, 0
 
-        # main_menu()
         drawingWindow()
+
+
+class gun:
+    def __init__(self, x, y, radius, color, facing):
+        self.x = x
+        self.y = y
+        self.radius = radius
+        self.color = color
+        self.facing = facing
+        self.vel = 8 * facing
+
+    def draw(self, win):
+        pygame.draw.circle(win, self.color, (self.x, self.y), self.radius)
 
 
 lvl1()
