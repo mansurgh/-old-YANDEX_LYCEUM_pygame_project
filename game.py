@@ -81,16 +81,16 @@ def lvl1():
         if keys[pygame.K_ESCAPE]:
             pygame.quit()
             sys.exit()
-        if keys[pygame.K_LEFT] and x > 10:
+        if keys[pygame.K_a] and x > 10:
             x -= speed
             right, left, up, down = False, True, False, False
-        elif keys[pygame.K_RIGHT] and x < 1590 - width - 5:
+        elif keys[pygame.K_d] and x < 1590 - width - 5:
             x += speed
             right, left, up, down = True, False, False, False
-        elif keys[pygame.K_UP] and y > 5:
+        elif keys[pygame.K_w] and y > 5:
             y -= speed
             right, left, up, down = False, False, True, False
-        elif keys[pygame.K_DOWN] and y < 900 - height - 5:
+        elif keys[pygame.K_s] and y < 900 - height - 5:
             y += speed
             right, left, up, down = False, False, False, True
         else:
@@ -126,24 +126,24 @@ def lvl2():
                 facing = 1
             else:
                 facing = -1
-            if len(bullets) < 25:
+            if len(bullets) < 1:
                 bullets.append(gun(round(x + width // 2), round(y + height // 2), 5, (255, 0, 0),
                                    facing))
         if keys[pygame.K_ESCAPE]:
             pygame.quit()
             sys.exit()
-        if keys[pygame.K_LEFT] and x > 10:
+        if keys[pygame.K_a] and x > 10:
             x -= speed
             right, left, up, down = False, True, False, False
             last_move = 'left'
-        elif keys[pygame.K_RIGHT] and x < 1590 - width - 5:
+        elif keys[pygame.K_d] and x < 1590 - width - 5:
             x += speed
             right, left, up, down = True, False, False, False
             last_move = 'right'
-        elif keys[pygame.K_UP] and y > 5:
+        elif keys[pygame.K_w] and y > 5:
             y -= speed
             right, left, up, down = False, False, True, False
-        elif keys[pygame.K_DOWN] and y < 900 - height - 5:
+        elif keys[pygame.K_s] and y < 900 - height - 5:
             y += speed
             right, left, up, down = False, False, False, True
         else:
