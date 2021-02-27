@@ -37,8 +37,6 @@ right, left, up, down, animCount = False, False, False, False, 0
 
 last_move = 'right'
 
-font = pygame.font.SysFont(None, 20)
-
 
 def drawingWindow():
     global animCount
@@ -66,47 +64,6 @@ def drawingWindow():
         bullet.draw(win)
 
     pygame.display.update()
-
-
-def draw_text(text, font, color, surface, x, y):
-    textobj = font.render(text, 1, color)
-    textrect = textobj.get_rect()
-    textrect.topleft = (x, y)
-    surface.blit(textobj, textrect)
-
-
-click = False
-
-
-def main_menu():
-    while True:
-
-        win.fill((0, 0, 0))
-        draw_text('main menu', font, (255, 255, 255), win, 20, 20)
-
-        mx, my = pygame.mouse.get_pos()
-
-        button_1 = pygame.Rect(50, 100, 200, 50)
-        if button_1.collidepoint((mx, my)):
-            if click:
-                drawingWindow()
-        pygame.draw.rect(win, (255, 0, 0), button_1)
-
-        click = False
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
-                    pygame.quit()
-                    sys.exit()
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                if event.button == 1:
-                    click = True
-
-        pygame.display.update()
-        clock.tick(60)
 
 
 def lvl1():
@@ -139,7 +96,6 @@ def lvl1():
         else:
             right, left, up, down, animCount = False, False, False, False, 0
 
-        # main_menu()
         drawingWindow()
         if x == 10 and y == 5:
             print('Переход на второй уровень!')
@@ -148,7 +104,7 @@ def lvl1():
 
 def lvl2():
     global x, y, right, left, up, down, animCount, background
-    background = pygame.image.load('textures/karta2.png')
+    background = pygame.image.load('textures/k2.png')
     run = True
     while run:
         clock.tick(60)
@@ -170,7 +126,7 @@ def lvl2():
                 facing = 1
             else:
                 facing = -1
-            if len(bullets) < 10:
+            if len(bullets) < 25:
                 bullets.append(gun(round(x + width // 2), round(y + height // 2), 5, (255, 0, 0),
                                    facing))
         if keys[pygame.K_ESCAPE]:
@@ -203,11 +159,58 @@ class gun:
         self.radius = radius
         self.color = color
         self.facing = facing
-        self.vel = 8 * facing
+        self.vel = 15 * facing
 
     def draw(self, win):
         pygame.draw.circle(win, self.color, (self.x, self.y), self.radius)
 
 
+def start_screen():
+    name_text = ["Ant Knight Adventures"]
+    game_quit_text = ["Чтобы закрыть игру нажмите на escape."]
+    win.fill(pygame.Color('black'))
+    font0 = pygame.font.Font(None, 100)
+    font1 = pygame.font.Font(None, 50)
+    font2 = pygame.font.Font(None, 30)
+    text_coord = 5
+    count = 0
+    for line in name_text:
+        string_rendered = font0.render(line, 1, pygame.Color('red'))
+        intro_rect = string_rendered.get_rect()
+        text_coord += 10
+        intro_rect.top = text_coord
+        intro_rect.x = 5
+        text_coord += intro_rect.height
+        win.blit(string_rendered, intro_rect)
+    for line in game_quit_text:
+        string_rendered = font2.render(line, 1, pygame.Color('white'))
+        intro_rect = string_rendered.get_rect()
+        text_coord += 780
+        intro_rect.top = text_coord
+        intro_rect.x = 20
+        text_coord += intro_rect.height
+        win.blit(string_rendered, intro_rect)
+
+    run = True
+    while run:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN:
+                    return
+        if count == 0:
+            win.blit(font1.render("PRESS ENTER", True, pygame.Color('black')), [1240, 800])
+            win.blit(font1.render("TO START PLAYING", True, pygame.Color('black')), [1210, 830])
+            count = 1
+        else:
+            win.blit(font1.render("PRESS ENTER", True, pygame.Color('white')), [1240, 800])
+            win.blit(font1.render("TO START PLAYING", True, pygame.Color('white')), [1210, 830])
+            count = 0
+        pygame.display.flip()
+        clock.tick(1)
+
+
+start_screen()
 lvl1()
 pygame.quit()
