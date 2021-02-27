@@ -91,26 +91,10 @@ tile_images = {
     'road[': load_image('Objects/roaf[.png'),
     'nothing': load_image('Objects/nothing.png')
 }
-walkRight = [pygame.image.load('textures/Characters/pers_right.png'),
-             pygame.image.load('textures/Characters/pers_right2.png'),
-             pygame.image.load('textures/Characters/pers_right3.png')]
-walkLeft = [pygame.image.load('textures/Characters/pers_left.png'),
-            pygame.image.load('textures/Characters/pers_left2.png'),
-            pygame.image.load('textures/Characters/pers_left3.png')]
-walkUp = [pygame.image.load('textures/Characters/pers_up.png'),
-          pygame.image.load('textures/Characters/pers_up2.png'),
-          pygame.image.load('textures/Characters/pers_up3.png')]
-walkDown = [pygame.image.load('textures/Characters/pers_down.png'),
-            pygame.image.load('textures/Characters/pers_stand.png'),
-            pygame.image.load('textures/Characters/pers_down2.png')]
-
-right, left, up, down, animCount = 0, 0, 0, 0, 0
 
 playerStand = pygame.image.load('textures/Characters/pers_stand.png')
 
 tile_width = tile_height = 50
-
-font = pygame.font.SysFont(None, 20)
 
 
 def move_hero(hero, movement):
@@ -151,65 +135,15 @@ class Player(pygame.sprite.Sprite):
             tile_width * self.pos[0] + 15, tile_height * self.pos[1] + 5)
 
 
-def draw_text(text, font, color, surface, x, y):
-    textobj = font.render(text, 1, color)
-    textrect = textobj.get_rect()
-    textrect.topleft = (x, y)
-    surface.blit(textobj, textrect)
-
-
-click = False
-
-
-def main_menu():
-    while True:
-
-        win.fill((0, 0, 0))
-        draw_text('main menu', font, (255, 255, 255), win, 20, 20)
-
-        mx, my = pygame.mouse.get_pos()
-
-        button_1 = pygame.Rect(50, 100, 200, 50)
-        if button_1.collidepoint((mx, my)):
-            if click:
-                tiles_group.draw(win)
-                player_group.draw(win)
-        pygame.draw.rect(win, (255, 0, 0), button_1)
-
-        click = False
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
-                    pygame.quit()
-                    sys.exit()
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                if event.button == 1:
-                    click = True
-
-        pygame.display.update()
-        clock.tick(30)
-
-
 def player_walking():
-    global right, left, up, down, animCount
     if keys[pygame.K_RIGHT]:
         move_hero(player, 'right')
-        right, left, up, down = True, False, False, False
     elif keys[pygame.K_LEFT]:
         move_hero(player, 'left')
-        right, left, up, down = False, True, False, False
     elif keys[pygame.K_UP]:
         move_hero(player, 'up')
-        right, left, up, down = False, False, True, False
     elif keys[pygame.K_DOWN]:
         move_hero(player, 'down')
-        right, left, up, down = False, False, False, True
-    else:
-        right, left, up, down = False, False, False, False
-        animCount = 0
 
 
 if __name__ == '__main__':
@@ -224,16 +158,6 @@ if __name__ == '__main__':
             if keys[pygame.K_ESCAPE]:
                 terminate()
             player_walking()
-            if right:
-                move_hero(player, 'right')
-            elif left:
-                move_hero(player, 'left')
-            elif up:
-                move_hero(player, 'up')
-            elif right:
-                move_hero(player, 'down')
-            win.fill(pygame.Color('white'))
-        # main_menu()
         tiles_group.draw(win)
         player_group.draw(win)
         pygame.display.flip()
