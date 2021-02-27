@@ -198,7 +198,53 @@ def start_screen():
                 run = False
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RETURN:
-                    return
+                    screen_before_lvl1()
+        if count == 0:
+            win.blit(font1.render("PRESS ENTER", True, pygame.Color('black')), [1240, 800])
+            win.blit(font1.render("TO START PLAYING", True, pygame.Color('black')), [1210, 830])
+            count = 1
+        else:
+            win.blit(font1.render("PRESS ENTER", True, pygame.Color('white')), [1240, 800])
+            win.blit(font1.render("TO START PLAYING", True, pygame.Color('white')), [1210, 830])
+            count = 0
+        pygame.display.flip()
+        clock.tick(1)
+
+
+def screen_before_lvl1():
+    lvl1_text = ["LVL 1"]
+    lvl1_task_text = ["Освой передвижение и войди в дверь."]
+
+    win.fill(pygame.Color('black'))
+    font = pygame.font.Font(None, 30)
+    font1 = pygame.font.Font(None, 50)
+    text_coord = 50
+    for line in lvl1_text:
+        string_rendered1 = font.render(line, 1, pygame.Color('white'))
+        intro_rect1 = string_rendered1.get_rect()
+        text_coord += 10
+        intro_rect1.top = text_coord
+        intro_rect1.x = 10
+        text_coord += intro_rect1.height
+        win.blit(string_rendered1, intro_rect1)
+    for line in lvl1_task_text:
+        string_rendered = font.render(line, 1, pygame.Color('white'))
+        intro_rect = string_rendered.get_rect()
+        text_coord += 20
+        intro_rect.top = text_coord
+        intro_rect.x = 10
+        text_coord += intro_rect.height
+        win.blit(string_rendered, intro_rect)
+
+    count = 0
+    run = True
+    while run:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN:
+                    lvl1()
         if count == 0:
             win.blit(font1.render("PRESS ENTER", True, pygame.Color('black')), [1240, 800])
             win.blit(font1.render("TO START PLAYING", True, pygame.Color('black')), [1210, 830])
@@ -212,5 +258,4 @@ def start_screen():
 
 
 start_screen()
-lvl1()
 pygame.quit()
