@@ -407,7 +407,8 @@ def lvl7():
 
         drawingWindow()
         if x == 10 and y == 800:
-            print('Конец игры!')
+            print('Концовка игры!')
+            end_screen()
 
 
 class gun:
@@ -567,6 +568,7 @@ def screen_before_lvl3():
     lvl1_task_text = ['Начинаем путешествие! Первое место - Мечеть "Сердце Чечни" в Грозном!']
     lvl_task_text2 = ['У тебя появилась новая способность - бросок мяча! Кроме просмотра, ты можешь играть!']
     lvl_task_text3 = ['Чтобы бросить мяч нажми на "пробел".']
+    lvl_task_text4 = ['Теперь в каждом путешествии ты должен находить секретные двери, чтобы пройти дальше.']
 
     win.fill(pygame.Color('black'))
     font = pygame.font.Font(None, 30)
@@ -600,6 +602,14 @@ def screen_before_lvl3():
         string_rendered = font.render(line, 1, pygame.Color('white'))
         intro_rect = string_rendered.get_rect()
         text_coord += 40
+        intro_rect.top = text_coord
+        intro_rect.x = 10
+        text_coord += intro_rect.height
+        win.blit(string_rendered, intro_rect)
+    for line in lvl_task_text4:
+        string_rendered = font.render(line, 1, pygame.Color('white'))
+        intro_rect = string_rendered.get_rect()
+        text_coord += 50
         intro_rect.top = text_coord
         intro_rect.x = 10
         text_coord += intro_rect.height
@@ -797,6 +807,61 @@ def screen_before_lvl7():
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RETURN:
                     lvl7()
+        if count == 0:
+            win.blit(font1.render("PRESS ENTER", True, pygame.Color('black')), [1240, 800])
+            win.blit(font1.render("TO START PLAYING", True, pygame.Color('black')), [1210, 830])
+            count = 1
+        else:
+            win.blit(font1.render("PRESS ENTER", True, pygame.Color('white')), [1240, 800])
+            win.blit(font1.render("TO START PLAYING", True, pygame.Color('white')), [1210, 830])
+            count = 0
+        pygame.display.flip()
+        clock.tick(1)
+
+
+def end_screen():
+    name_text = ["Ant Knight Adventures"]
+    game_end_text = ["Наше с Вами путешествие закончилось. С Вами было очень интересно! Спасибо!"]
+    game_quit_text = ['Нажмите на enter, чтобы запустить игру с начала!']
+    win.fill(pygame.Color('black'))
+    font0 = pygame.font.Font(None, 100)
+    font1 = pygame.font.Font(None, 50)
+    font2 = pygame.font.Font(None, 30)
+    text_coord = 5
+    for line in name_text:
+        string_rendered = font0.render(line, 1, pygame.Color('red'))
+        intro_rect = string_rendered.get_rect()
+        text_coord += 10
+        intro_rect.top = text_coord
+        intro_rect.x = 5
+        text_coord += intro_rect.height
+        win.blit(string_rendered, intro_rect)
+    for line in game_end_text:
+        string_rendered = font1.render(line, 1, pygame.Color('plum4'))
+        intro_rect = string_rendered.get_rect()
+        text_coord += 20
+        intro_rect.top = text_coord
+        intro_rect.x = 5
+        text_coord += intro_rect.height
+        win.blit(string_rendered, intro_rect)
+    for line in game_quit_text:
+        string_rendered = font2.render(line, 1, pygame.Color('white'))
+        intro_rect = string_rendered.get_rect()
+        text_coord += 700
+        intro_rect.top = text_coord
+        intro_rect.x = 20
+        text_coord += intro_rect.height
+        win.blit(string_rendered, intro_rect)
+
+    count = 0
+    run = True
+    while run:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN:
+                    screen_before_lvl1()
         if count == 0:
             win.blit(font1.render("PRESS ENTER", True, pygame.Color('black')), [1240, 800])
             win.blit(font1.render("TO START PLAYING", True, pygame.Color('black')), [1210, 830])
