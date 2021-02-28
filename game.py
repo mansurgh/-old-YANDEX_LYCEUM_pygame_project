@@ -121,11 +121,9 @@ def lvl2():
         if keys[pygame.K_a] and x > 10:
             x -= speed
             right, left, up, down = False, True, False, False
-            last_move = 'left'
         elif keys[pygame.K_d] and x < 1590 - width - 5:
             x += speed
             right, left, up, down = True, False, False, False
-            last_move = 'right'
         elif keys[pygame.K_w] and y > 5:
             y -= speed
             right, left, up, down = False, False, True, False
@@ -425,6 +423,9 @@ class gun:
 
 
 def start_screen():
+    pygame.mixer.music.load('lvl12.wav')
+    pygame.mixer.music.set_volume(0.2)
+    pygame.mixer.music.play(-1)
     name_text = ["Ant Knight Adventures"]
     game_quit_text = ["Чтобы закрыть ИГРУ нажмите на escape."]
     win.fill(pygame.Color('black'))
@@ -564,6 +565,9 @@ def screen_before_lvl2():
 
 
 def screen_before_lvl3():
+    pygame.mixer.music.load('lvl3.wav')
+    pygame.mixer.music.set_volume(0.2)
+    pygame.mixer.music.play(-1)
     lvl1_text = ["TRIP 3"]
     lvl1_task_text = ['Начинаем путешествие! Первое место - Мечеть "Сердце Чечни" в Грозном!']
     lvl_task_text2 = ['У тебя появилась новая способность - бросок мяча! Кроме просмотра, ты можешь играть!']
@@ -636,6 +640,9 @@ def screen_before_lvl3():
 
 
 def screen_before_lvl4():
+    pygame.mixer.music.load('moscow.wav')
+    pygame.mixer.music.set_volume(0.2)
+    pygame.mixer.music.play(-1)
     lvl1_text = ["TRIP 4"]
     lvl1_task_text = ['Теперь мы перемещаемся на "Красную площадь" - главную площадь Москвы!']
 
@@ -682,6 +689,9 @@ def screen_before_lvl4():
 
 
 def screen_before_lvl5():
+    pygame.mixer.music.load('pizan_bash.wav')
+    pygame.mixer.music.set_volume(0.2)
+    pygame.mixer.music.play(-1)
     lvl1_text = ["TRIP 5"]
     lvl1_task_text = ['Пиза - город, в котором находится самая известная колокольная башня в мире - Пизанская башня!']
 
@@ -728,6 +738,9 @@ def screen_before_lvl5():
 
 
 def screen_before_lvl6():
+    pygame.mixer.music.load('london.wav')
+    pygame.mixer.music.set_volume(0.2)
+    pygame.mixer.music.play(-1)
     lvl1_text = ["TRIP 6"]
     lvl1_task_text = ['Биг Бен - знаменитая на весь мир часовая башня в Лондоне!']
 
@@ -774,6 +787,9 @@ def screen_before_lvl6():
 
 
 def screen_before_lvl7():
+    pygame.mixer.music.load('lvl7.wav')
+    pygame.mixer.music.set_volume(0.2)
+    pygame.mixer.music.play(-1)
     lvl1_text = ["TRIP 7"]
     lvl1_task_text = ['И наконец - Эйфелева Башня - самая узнаваемая архитектурная достопримечательность Парижа!']
 
