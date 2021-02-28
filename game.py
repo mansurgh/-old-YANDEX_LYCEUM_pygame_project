@@ -352,6 +352,62 @@ def lvl6():
             right, left, up, down, animCount = False, False, False, False, 0
 
         drawingWindow()
+        if x == 1000 and y == 5:
+            print('Переход на седьмой уровень!')
+            screen_before_lvl7()
+
+
+def lvl7():
+    global x, y, right, left, up, down, animCount, background, last_move
+    last_move = 'right'
+    background = pygame.image.load('textures/paris.png')
+    run = True
+    while run:
+        clock.tick(60)
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+
+        for bullet in bullets:
+            if 1615 > bullet.x > 0:
+                bullet.x += bullet.vel
+            else:
+                bullets.pop(bullets.index(bullet))
+
+        keys = pygame.key.get_pressed()
+
+        if keys[pygame.K_SPACE]:
+            if last_move == 'right':
+                facing = 1
+            else:
+                facing = -1
+            if len(bullets) < 1:
+                bullets.append(gun(round(x + width // 2), round(y + height // 2), 5, (255, 0, 0),
+                                   facing))
+        if keys[pygame.K_ESCAPE]:
+            pygame.quit()
+            sys.exit()
+        if keys[pygame.K_a] and x > 10:
+            x -= speed
+            right, left, up, down = False, True, False, False
+            last_move = 'left'
+        elif keys[pygame.K_d] and x < 1590 - width - 5:
+            x += speed
+            right, left, up, down = True, False, False, False
+            last_move = 'right'
+        elif keys[pygame.K_w] and y > 5:
+            y -= speed
+            right, left, up, down = False, False, True, False
+        elif keys[pygame.K_s] and y < 900 - height - 5:
+            y += speed
+            right, left, up, down = False, False, False, True
+        else:
+            right, left, up, down, animCount = False, False, False, False, 0
+
+        drawingWindow()
+        if x == 10 and y == 800:
+            print('Конец игры!')
 
 
 class gun:
@@ -695,6 +751,52 @@ def screen_before_lvl6():
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RETURN:
                     lvl6()
+        if count == 0:
+            win.blit(font1.render("PRESS ENTER", True, pygame.Color('black')), [1240, 800])
+            win.blit(font1.render("TO START PLAYING", True, pygame.Color('black')), [1210, 830])
+            count = 1
+        else:
+            win.blit(font1.render("PRESS ENTER", True, pygame.Color('white')), [1240, 800])
+            win.blit(font1.render("TO START PLAYING", True, pygame.Color('white')), [1210, 830])
+            count = 0
+        pygame.display.flip()
+        clock.tick(1)
+
+
+def screen_before_lvl7():
+    lvl1_text = ["TRIP 7"]
+    lvl1_task_text = ['И наконец - Эйфелева Башня - самая узнаваемая архитектурная достопримечательность Парижа!']
+
+    win.fill(pygame.Color('black'))
+    font = pygame.font.Font(None, 30)
+    font1 = pygame.font.Font(None, 50)
+    text_coord = 50
+    for line in lvl1_text:
+        string_rendered1 = font.render(line, 1, pygame.Color('white'))
+        intro_rect1 = string_rendered1.get_rect()
+        text_coord += 10
+        intro_rect1.top = text_coord
+        intro_rect1.x = 10
+        text_coord += intro_rect1.height
+        win.blit(string_rendered1, intro_rect1)
+    for line in lvl1_task_text:
+        string_rendered = font.render(line, 1, pygame.Color('white'))
+        intro_rect = string_rendered.get_rect()
+        text_coord += 20
+        intro_rect.top = text_coord
+        intro_rect.x = 10
+        text_coord += intro_rect.height
+        win.blit(string_rendered, intro_rect)
+
+    count = 0
+    run = True
+    while run:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN:
+                    lvl7()
         if count == 0:
             win.blit(font1.render("PRESS ENTER", True, pygame.Color('black')), [1240, 800])
             win.blit(font1.render("TO START PLAYING", True, pygame.Color('black')), [1210, 830])
